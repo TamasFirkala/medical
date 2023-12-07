@@ -5,7 +5,7 @@ import streamlit as st
 
 openai.api_key = st.secrets["api_secret"]
 
-st.title("You can ask ChatGPT about the content of the next webpage: https://shorturl.at/ksOQW  using GPT-4-Turbo.")
+st.title("Test ChatGPT in finding contact data of doctors and institutions on this website: https://shorturl.at/ksOQW  using GPT-4-Turbo model.")
 
 query = st.text_input("What would you like to ask?", "")
 
