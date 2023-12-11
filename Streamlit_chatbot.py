@@ -3,7 +3,10 @@ import openai
 import os
 import streamlit as st
 
+#Defining OpeAI API key
 openai.api_key = st.secrets["api_secret"]
+
+#Building frontend and user input dialog with Python-streamlit 
 
 st.title("Test ChatGPT in finding contact data of doctors and institutions on this website: https://shorturl.at/ksOQW  using GPT-4-Turbo model.")
 
@@ -14,23 +17,24 @@ if st.button("Submit"):
         st.error(f"Please provide the search query.")
     else:
         try:
-
+            #Using Python-Llama_index for LLM application 
             from llama_index import SimpleDirectoryReader
 
+            #Loading the contect of the webpage
             documents = SimpleDirectoryReader('./data').load_data()
 
             from llama_index import LLMPredictor, GPTVectorStoreIndex, PromptHelper
-            #from langchain.llms import OpenAI
             from llama_index.llms import OpenAI
-
+            
+            #Chossing an LLm model and defining relevant parameters
             llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.1, model_name="gpt-4-1106-preview"))
-            #llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.1, model_name="text-davinci-003"))
-
+            
             max_input_size = 4096
             num_output = 256
             max_chunk_overlap = 0.5
             prompt_helper = PromptHelper(max_input_size, num_output, max_chunk_overlap)
 
+            #building dialog mechanism
             custom_LLM_index = GPTVectorStoreIndex(documents, llm_predictor=llm_predictor, prompt_helper = prompt_helper)
 
             query_engine = custom_LLM_index.as_query_engine()
